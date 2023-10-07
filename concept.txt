@@ -1,0 +1,19 @@
+App allowing users to define alarms based on a set of custom rules
+
+Alarms are to be scheduled by an 'AlarmScheduler', each individual 'Alarm' will be nothing more than a simple signal interfacing with the host OS (make noise, etc.). Alarms should have a default sound, but should also be able to get assigned a custom sound. Alarms should be configured to make alarm noise (aka ignore do not disturb, etc. be treated the exact same as a regular 'system' alarm).
+
+Alarms are to be dynamically created based on a multitade of sources, sources are defined as 'EventSources', an 'EventSource' will simply (periodically?) yield a collection of events to be filtered based on certain criteria by the alarmscheduler (may need another layer for this, all depends on actual V1 implementation).
+The initial set of EventSources will be:
+* Google Calender
+* Apple Calender (if applicable)
+* System Calender
+* Manual (UI)
+
+Events provided by an EventSource contain a set of tags/metadata (could be extracted from name or w/e), when a new event is detected/created, we'll run it through a set of user defined rules to decide whether:
+* An alarm is to be scheduled
+* The exact time of said alarm
+Not all events should yield the creation of an alarm, when an alarm IS created, it's time should be based on a set of user configured parameters (defined in the rules section of the application). Rules can be as simple as 'only create when event starts with X name', and as complex as 'take into account travel time from current location to location of event + X preparation time'.
+
+For locations, an event can either have a predefined location, or a name/description from which we'll attempt to yoink a location. If a location can be determined, we'll run it through a locationservice/traveltimeservice, these services will likely either use google maps, apple maps, or some open dataset (dont embed in application itself).
+
+Alarms should be able to be snoozed, and cancelled. We want a maximum of ~2-3 alarms at a time, and we also want the user to be able to define when alarms are allowed to be scheduled (eg. only between 5:00 and 11:00). When an alarm gets scheduled, we should notify the user via a notification (ensure the user is aware).
