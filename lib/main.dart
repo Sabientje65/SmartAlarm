@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:smart_alarm/core/background_worker.dart';
 import 'package:smart_alarm/core/notification_service.dart';
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  NotificationService().initialize();
+  BackgroundWorker().initialize();
+
   runApp(const MyApp());
 }
 
@@ -67,9 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       // _counter++;
 
-      final notificationService = NotificationService();
-
-      notificationService.startMonitoring();
         // .then(() => {
         //   notificationService.show('Test Notificatie', 'Met een stukje tekst')
         // });
